@@ -30,7 +30,6 @@ const products_reducer = (state, action) => {
   }
   if (action.type === GET_PRODUCTS_SUCCESS) {
     const featured_products = action.payload.filter(product => product.featured)
-    console.log(featured_products);
     return {
       ...state,
       products_loading: false,

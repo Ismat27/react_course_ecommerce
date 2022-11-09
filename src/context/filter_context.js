@@ -16,7 +16,17 @@ const initialState = {
   filtered_products: [],
   all_products: [],
   grid_view: true,
-  sort: 'price-highest'
+  sort: 'price-highest',
+  filters: {
+    text: '',
+    company: 'all',
+    color: 'all',
+    category: 'all',
+    price: 0,
+    min_price: 0,
+    max_price: 0,
+    shipping: false,
+  }
 }
 
 const FilterContext = React.createContext()
@@ -41,7 +51,6 @@ export const FilterProvider = ({ children }) => {
     dispatch({type: SET_LISTVIEW})
   }
   const updateSort = (event) => {
-    const name = event.target.name
     const value = event.target.value
     dispatch({type: UPDATE_SORT, payload: value})
   }

@@ -57,10 +57,19 @@ export const FilterProvider = ({ children }) => {
   }
 
   const clearFilters = () => {
-
+    dispatch({type: CLEAR_FILTERS})
   }
   const updateFilters = (event) => {
-    const {name, value} = event.target
+    let {name, value} = event.target
+    if (name === 'price') {
+      value = Number(value)
+    }
+    if (name === 'shipping') {
+      value = event.target.checked
+    }
+    // if (name === 'category') {
+    //   console.log(name, value);
+    // }
     dispatch({type: UPDATE_FILTERS, payload: {name, value}})
   }
   const data = {

@@ -13,16 +13,23 @@ const Filters = () => {
       max_price, 
       price, 
       shipping,
-      company
+      color,
+      company,
     },
     clearFilters,
-    updateFilters
+    updateFilters,
+    all_products
   } = useFilterContext()
+
+  const companies = getUniqueValues(all_products, 'company')
+  const categories = getUniqueValues(all_products, 'category')
+  const colors = getUniqueValues(all_products, 'colors')
+
   return (
     <Wrapper>
       <div className='content'>
         <form onSubmit={(e) => e.preventDefault()}>
-          <div>
+          <div className='form-control'>
             <input 
               type={'text'}
               name='text'
@@ -32,8 +39,103 @@ const Filters = () => {
               onChange={updateFilters}
             />
           </div>
-
+          <div className='form-control'>
+            <h5>category</h5>
+            <div>
+              {
+                categories.map((c,) => {
+                  return (
+                    <button 
+                      key={c}
+                      type='button'
+                      name='category'
+                      value={c}
+                      onClick={updateFilters}
+                      className={`${category===c.toLowerCase()?'active': ''}`}
+                    >
+                      {c}
+                    </button>
+                  )
+                })
+              }
+            </div>
+          </div>
+          <div className='form-control'>
+            <h5>company</h5>
+            <select value={company} name='company' className='company' onChange={updateFilters}>
+              {
+                companies.map(com => {
+                  return (
+                    <option key={com} value={com}>
+                      {com}
+                    </option>
+                  )
+                })
+              }
+            </select>
+          </div>
+          <div className='form-control'>
+            <h5>colors</h5>
+            <div className='colors'>
+              {
+                colors.map((c, index) => {
+                  if (c === 'all') {
+                    return (
+                      <button 
+                        key={c}
+                        name='color' 
+                        value={c}
+                        data-color={c}
+                        className={`${color ===c ? 'all-btn active' : 'all-btn' }`}
+                        onClick={updateFilters}
+                        >
+                        all
+                      </button>
+                    )
+                  }
+                  return (
+                    <button 
+                      key={index}
+                      name='color'
+                      style={{background: c}}
+                      data-color={c}
+                      className={`${color ===c ? 'color-btn active' : 'color-btn' }`}
+                      value={c}
+                      onClick={updateFilters}
+                    >
+                      {color === c && <FaCheck/>}
+                    </button>
+                  )
+                })
+              }
+            </div>
+            <div className='form-control'>
+              <h5>price</h5>
+              <p className='price'>{formatPrice(price)}</p>
+              <input 
+                type={'range'}
+                name='price'
+                min={min_price}
+                max={max_price}
+                value={price}
+                onChange={updateFilters}
+              />
+            </div>
+          </div>
+          <div className='form-control shipping'>
+            <label htmlFor='shipping'>free shipping</label>
+            <input 
+              type={'checkbox'}
+              name='shipping'
+              id='shipping'
+              onChange={updateFilters}
+              checked={shipping}
+            />
+          </div>
         </form>
+        <button type='button' className='clear-btn' onClick={clearFilters} >
+          clear filters
+        </button>
       </div>
     </Wrapper>
   )

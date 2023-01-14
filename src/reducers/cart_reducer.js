@@ -11,7 +11,23 @@ const cart_reducer = (state, action) => {
     const { id, color, amount, product} = action.payload;
     const tempProd = state.cart.find(i => i.id == id + color)
     if (tempProd) {
-
+      const tempItems = state.cart.map(item => {
+        if (item.id === id + color) {
+          let newAmount = amount + item.amount
+          newAmount = newAmount > item.max? item.max : newAmount
+          return {
+            ...item,
+            amount: newAmount
+          }
+        }
+        else {
+          return item
+        }
+      })
+      return {
+        ...state,
+        cart: tempItems
+      }
     }
     else {
       const newItem = {
@@ -31,7 +47,6 @@ const cart_reducer = (state, action) => {
     }
   }
   return state
-  throw new Error(`No Matching "${action.type}" - action type`)
 }
 
 export default cart_reducer

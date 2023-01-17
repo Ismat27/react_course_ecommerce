@@ -41,6 +41,10 @@ export const CartProvider = ({ children }) => {
     dispatch({type: CLEAR_CART})
   }
 
+  const toggleAmount = (id, value) => {
+    dispatch({type: TOGGLE_CART_ITEM_AMOUNT, payload: {id, value}})
+  }
+
   useEffect(()=> {
     localStorage.setItem('cart', JSON.stringify(state.cart))
   }, [state.cart])
@@ -51,7 +55,8 @@ export const CartProvider = ({ children }) => {
         ...state,
         addToCart,
         removeItem,
-        clearCart
+        clearCart,
+        toggleAmount
       }
     }>
       {children}

@@ -7,7 +7,7 @@ import {
 } from '../actions'
 
 const cart_reducer = (state, action) => {
-  if (action.type = ADD_TO_CART) {
+  if (action.type === ADD_TO_CART) {
     const { id, color, amount, product} = action.payload;
     const tempProd = state.cart.find(i => i.id == id + color)
     if (tempProd) {
@@ -46,7 +46,19 @@ const cart_reducer = (state, action) => {
       }
     }
   }
-  return state
+  if (action.type === REMOVE_CART_ITEM) {
+    const tempCart = state.cart.filter(item => item.id !== action.payload)
+    return {
+      ...state,
+      cart: tempCart
+    }
+  }
+  if (action.type === CLEAR_CART) {
+    return {
+      ...state,
+      cart: []
+    }
+  }
 }
 
 export default cart_reducer

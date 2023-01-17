@@ -102,6 +102,7 @@ const cart_reducer = (state, action) => {
       total_items
     }
   }
+  throw new Error('unknown action')
 }
 
 export default cart_reducer
